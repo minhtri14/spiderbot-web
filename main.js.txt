@@ -1,0 +1,41 @@
+const ipInput = document.getElementById('espIp');
+const savedIp = localStorage.getItem('esp32_ip');
+if (savedIp) ipInput.value = savedIp;
+
+document.getElementById('saveIp').addEventListener('click', () => {
+  localStorage.setItem('esp32_ip', ipInput.value.trim());
+  alert('Đã lưu IP: ' + ipInput.value);
+});
+
+function espUrl(path) {
+  return ipInput.value.trim().replace(/\/+$/, '') + path;
+}
+
+async function send(path) {
+  try { await fetch(path, { method: 'GET', mode: 'cors' }); }
+  catch (e) { console.warn('Lỗi gửi lệnh:', e); }
+}
+
+document.getElementById('mode1').addEventListener('click', () => {
+  document.getElementById('panel2').classList.add('hidden');
+  send(espUrl('/setMode?mode=1'));
+});
+document.getElementById('mode2').addEventListener('click', () => {
+  document.getElementById('panel2').classList.remove('hidden');
+  send(espUrl('/setMode?mode=2'));
+});
+
+function pressStart(player, action) { send(espUrl(`/cmd?player=${player}&action=${action}`)); }
+function pressEnd(player) { send(espUrl(`/cmd?player=${player}&action=STOP`)); }
+
+function bindHold(btn) {
+  const player = btn.dataset.player;
+  const action = btn.dataset.action;
+  btn.addEventListener('mousedown', () => pressStart(player, action));
+  btn.addEventListener('mouseup', () => pressEnd(player));
+  btn.addEventListener('mouseleave', () => pressEnd(player));
+  btn.addEventListener('touchstart', e => { e.preventDefault(); pressStart(player, action); }, { passive: false });
+  btn.addEventListener('touchend', () => pressEnd(player));
+  btn.addEventListener('touchcancel', () => pressEnd(player));
+}
+document.querySelectorAll('button.hold').forEach(bindHold);

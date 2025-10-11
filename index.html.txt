@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SpiderBot Controller</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>SpiderBot Controller</h1>
+
+    <div class="ip-row">
+      <label>ESP32 IP:</label>
+      <input id="espIp" type="text" placeholder="http://192.168.1.123" />
+      <button id="saveIp">Lưu</button>
+    </div>
+
+    <div class="mode-row">
+      <button id="mode1">1 Player</button>
+      <button id="mode2">2 Players</button>
+    </div>
+
+    <div id="panel1" class="panel">
+      <h2>Player A</h2>
+      <div class="grid">
+        <button class="hold" data-player="1" data-action="FORWARD">FORWARD</button>
+        <button class="hold" data-player="1" data-action="LEFT">LEFT</button>
+        <button class="hold" data-player="1" data-action="RIGHT">RIGHT</button>
+        <button class="hold" data-player="1" data-action="BACK">BACK</button>
+      </div>
+    </div>
+
+    <div id="panel2" class="panel hidden">
+      <h2>Player B</h2>
+      <div class="grid">
+        <button class="hold" data-player="2" data-action="FORWARD">FORWARD</button>
+        <button class="hold" data-player="2" data-action="LEFT">LEFT</button>
+        <button class="hold" data-player="2" data-action="RIGHT">RIGHT</button>
+        <button class="hold" data-player="2" data-action="BACK">BACK</button>
+      </div>
+    </div>
+
+    <p class="hint">Nhấn giữ để chạy, thả tay để dừng.</p>
+  </div>
+
+  <script src="/main.js"></script>
+</body>
+</html>
